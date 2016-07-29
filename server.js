@@ -16,14 +16,15 @@ Storage.prototype.add = function(name) {
 
 Storage.prototype.delete = function(id) {
     var item = this.items.splice(id, 1);
+    this.id -= 1;
     for (var i = id; i < this.items.length; i++) {
-        this.items[id].id -= 1;
+        this.items[i].id = i;
     }
     return item[0].name;
 };
 
 Storage.prototype.edit = function(id, name) {
-    if (id > this.items.length - 1) {
+    if (id > this.id) {
         return this.add(name);
     }
     this.items[id].name = name;
