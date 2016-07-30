@@ -18,13 +18,13 @@ Storage.prototype.delete = function(id) {
     var item = this.items.splice(id, 1);
     this.id -= 1;
     for (var i = id; i < this.items.length; i++) {
-        this.items[i].id = i;
+        this.items[i].id -= 1;
     }
-    return item[0].name;
+    return this.items[id];
 };
 
 Storage.prototype.edit = function(id, name) {
-    if (id > this.id) {
+    if (id >= this.items.length) {
         return this.add(name);
     }
     this.items[id].name = name;
@@ -74,3 +74,6 @@ app.put('/items/:id/', jsonParser, function(req, res) {
 });
 
 app.listen(process.env.PORT || 8080);
+
+exports.app = app;
+exports.storage = storage;
